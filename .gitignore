@@ -5,3 +5,9 @@ exp/*
 *__pycache__
 *.pyc
 *inmemory*
+/data
+/dataset
+*.zip
+*.npz
+*.npz
+/data

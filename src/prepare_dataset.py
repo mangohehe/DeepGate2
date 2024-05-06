@@ -114,7 +114,8 @@ if __name__ == '__main__':
         name_list.append(bench_filename)
     for bench_filename in name_list[args.start_idx: min(args.end_idx, len(name_list))]:
         circuit_name = bench_filename.split('/')[-1].split('.')[0]
-
+        print('[INFO] Read bench from bench file name: ', bench_filename)
+        print("Supported gates currently are:", list(gate_to_index.keys()))
         x_data, edge_index, fanin_list, fanout_list, level_list = circuit_utils.parse_bench(bench_filename, gate_to_index)
         # PI
         PI_index = level_list[0]

@@ -1036,15 +1036,38 @@ def feature_gen_level(x_data, fanout_list, gate_to_index={'GND': 999, 'VDD': 999
     return x_data, level_list
 
 def parse_bench(file, gate_to_index={'PI': 0, 'AND': 1, 'NOT': 2}, MAX_LENGTH=-1):
+    print(f"Starting parse_bench with file: {file}")
+    print(f"Using gate_to_index: {gate_to_index}")
+    print(f"MAX_LENGTH set to: {MAX_LENGTH}")
+
     data = read_file(file)
+    print(f"Initial data read from file: {data[:10]}...")  # Show only the first 10 entries for brevity
+
     data, num_nodes, _ = add_node_index(data)
+    print(f"Data after adding node index: {data[:10]}...")
+    print(f"Total number of nodes: {num_nodes}")
+
     if MAX_LENGTH > 0 and num_nodes > MAX_LENGTH:
+        print(f"Number of nodes {num_nodes} exceeds MAX_LENGTH {MAX_LENGTH}, returning empty lists.")
         return [], [], [], [], []
+
     data, edge_data = feature_gen_connect(data, gate_to_index)
+    print(f"Data after generating connections: {data[:10]}...")
+    print(f"Edge data: {edge_data[:10]}...")
+
     fanin_list, fanout_list = get_fanin_fanout(data, edge_data)
+    print(f"Fan-in list: {fanin_list[:10]}...")
+    print(f"Fan-out list: {fanout_list[:10]}...")
+
     data, level_list = feature_gen_level(data, fanout_list)
+    print(f"Data with level information: {data[:10]}...")
+    print(f"Level list: {level_list[:10]}...")
+
     data = rename_node(data)
+    print(f"Data after renaming nodes: {data[:10]}...")
+
     return data, edge_data, fanin_list, fanout_list, level_list
+
 
 
 def simulator_truth_table(x_data, PI_indexes, level_list, fanin_list, gate_to_index):
